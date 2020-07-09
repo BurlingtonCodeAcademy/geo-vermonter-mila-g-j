@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import VTMap from './VTMap'
 
 ReactDOM.render(
-  <div style={{ height: '650px', width: '650px' }}>
+  <div>
     <VTMap />
   </div>,
   document.getElementById('root')
