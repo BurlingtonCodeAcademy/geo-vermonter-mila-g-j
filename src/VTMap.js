@@ -39,14 +39,14 @@ class VTMap extends React.Component {
     super(props);
 
     this.state = {
-      centerStart: {
-        lat: 44.2601,
-        lon: -72.5754,
+      startingCoords: {
+        latitude: 44.2601,
+        longitude: -72.5754,
       },
       playStart: {
-        lat: 44.2601,
-        lon: -72.5754,
-      }, //centerStart and playStart are meant to be used as a comparison against oneanother
+        latitude: 44.2601,
+        longitude: -72.5754,
+      }, //startingCoords and playStart are meant to be used as a comparison against oneanother
       zoom: 8,
       //map start state
       vtBorder: L.geoJSON(borderData),
@@ -67,6 +67,7 @@ class VTMap extends React.Component {
       return {
         gameStarted: true,
         startingCoords: randomCoord,
+        scoreCheckCoords: randomCoord,
       };
     });
     console.log("string");
@@ -74,35 +75,63 @@ class VTMap extends React.Component {
   //movement buttons
   north = () => {
     this.setState({
-      centerStart: {
-        lat: this.state.centerStart.lat + 0.002,
-        lon: this.state.centerStart.lon,
+      startingCoords: {
+        latitude: this.state.startingCoords.latitude + 0.002,
+        longitude: this.state.startingCoords.longitude,
       },
     });
   };
   south = () => {
     this.setState({
-      centerStart: {
-        lat: this.state.centerStart.lat - 0.002,
-        lon: this.state.centerStart.lon,
+      startingCoords: {
+        latitude: this.state.startingCoords.latitude - 0.002,
+        longitude: this.state.startingCoords.longitude,
       },
     });
   };
   east = () => {
     this.setState({
-      centerStart: {
-        lat: this.state.centerStart.lat,
-        lon: this.state.centerStart.lon + 0.003,
+      startingCoords: {
+        latitude: this.state.startingCoords.latitude,
+        longitude: this.state.startingCoords.longitude + 0.003,
       },
     });
   };
   west = () => {
     this.setState({
-      centerStart: {
-        lat: this.state.centerStart.lat,
-        lon: this.state.centerStart.lon - 0.003,
+      startingCoords: {
+        latitude: this.state.startingCoords.latitude,
+        longitude: this.state.startingCoords.longitude - 0.003,
       },
     });
+  };
+  //give up function to pair with button
+  giveUp = () => {
+    this.setState({ gamePlay: false });
+  };
+
+  //guess displays the modal for the county guess
+  guess = () => {
+    this.setState({ modalDisplayed: true });
+  };
+
+  openModal = () => {
+    this.setState({
+      modalDisplayed: true,
+    });
+  };
+
+  closeModal = () => {
+    this.setState({
+      modalDisplayed: false,
+    });
+  };
+
+  //score tracker 5000, compares the two states against eachother and deducts points
+  score = () => {
+    if (this.state.startingCoords !== this.state.scoreCheckCoords) {
+      return this.setState.playerScore - 10;
+    }
   };
 
   render() {
@@ -139,23 +168,31 @@ class VTMap extends React.Component {
           >
             Start Game
           </button>
-          <button id="guess-spot" disabled={!this.state.gameStarted}>
+          <button
+            id="guess-spot"
+            disabled={!this.state.gameStarted}
+            onClick={this.guess}
+          >
             Guess Spot
           </button>
-          <button id="give-up" disabled={!this.state.gameStarted}>
+          <button
+            id="give-up"
+            disabled={!this.state.gameStarted}
+            onClick={this.giveUp}
+          >
             Give Up
           </button>
         </div>
         <div className="controls">
-          <button id="north">North</button>
-          <button id="south">South</button>
-          <button id="west">West</button>
-          <button id="east">East</button>
+          <button onClick={this.north}>North</button>
+          <button onClick={this.south}>South</button>
+          <button onClick={this.west}>West</button>
+          <button onClick={this.east}>East</button>
           <button id="zoom-out">Zoom Out</button>
         </div>
         <div>
           <p>Latitude:</p>
-          <p>Longitud:</p>
+          <p>Longitude:</p>
           <p>County:</p>
           <p>Score:</p>
         </div>
