@@ -37,3 +37,9 @@ class Modal extends React.Component {
     }
 }
 export default Modal
+
+
+
+
+
+//onClick={this.props.countyGuess}
