@@ -44,7 +44,7 @@ class VTMap extends React.Component {
         latitude: 44.2601,
         longitude: -72.5754,
       },
-      playStart: {
+      scoreCheckCoords: {
         latitude: 44.2601,
         longitude: -72.5754,
       }, //startingCoords and playStart are meant to be used as a comparison against oneanother
