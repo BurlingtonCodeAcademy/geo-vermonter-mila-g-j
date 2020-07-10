@@ -6,8 +6,16 @@ class Modal extends React.Component {
         super(props)
 
         this.state = {
-
+            modalDisplayed: false
         }
+    }
+
+    openModal = (evt) => {
+        evt.preventDefault()
+
+        this.setState((prevState) => {
+            return { modalDisplayed: !prevState.modalDisplayed }
+        })
     }
 
 
@@ -32,7 +40,7 @@ class Modal extends React.Component {
                     <button>Windham</button>
                     <button>Windsor</button>
                 </div>
-                <button>Cancel</button>
+                <button onClick={}>Cancel</button>
             </div>
         )
     }
