@@ -40,8 +40,6 @@ class VTMap extends React.Component {
         }
     }
 
-
-
     //function to start game
     startGame = (evt) => {
         evt.preventDefault()
