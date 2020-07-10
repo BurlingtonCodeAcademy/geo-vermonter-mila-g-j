@@ -8,20 +8,23 @@ import leafletPip from 'leaflet-pip'
 //creates a random point in "Vermont"
 function randomVtPoint() {
     let latitude = Math.random() * (45.005419 - 42.730315 + 1) + 42.730315;
-    let longitude = Math.random() * ((-71.510225) - (-73.352182) + 1) + (-73.352182);
+    let longitude = (Math.random() * (71.510225 - 73.352182 + 1) + 73.352182) * -1;
     return [latitude, longitude]
 }
 
 //checks random point against Vermont polygon - leafletPip
 function startingPoint(latLon) {
     let gjLayer = L.geoJson(borderData);
-    let results = leafletPip.pointInLayer(latLon, gjLayer);
+    let results = leafletPip.pointInLayer([latLon[1],latLon[0]], gjLayer);
+
     console.log(results)
     let coordinates = latLon
 
     while (results.length === 0) {
         coordinates = randomVtPoint()
-        results = leafletPip.pointInLayer(coordinates, gjLayer)
+        results = leafletPip.pointInLayer([coordinates[1], coordinates[0]], gjLayer)
+        console.log("in while loop")
+        console.log(results)
     }
     return coordinates
 }
@@ -33,11 +36,11 @@ class VTMap extends React.Component {
 
         this.state = {
             gameStarted: false,
-            startingCoords:[44.0886, -72.7317]
+            startingCoords: [44.0886, -72.7317]
         }
     }
 
-    
+
 
     //function to start game
     startGame = (evt) => {
@@ -45,13 +48,14 @@ class VTMap extends React.Component {
 
         let randomPoint = randomVtPoint()
         let randomCoord = startingPoint(randomPoint)
-
+        console.log("string")
         this.setState(() => {
             return {
-                gameStarted: true, 
+                gameStarted: true,
                 startingCoords: randomCoord,
             }
         })
+        console.log("string")
     }
 
     render() {
