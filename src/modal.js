@@ -10,25 +10,24 @@ class Modal extends React.Component {
                 <h1>Which County are you in?</h1>
                 <h3>There are only 14</h3>
                 <div id='county-list'>
-                    <div>Addison</div>
-                    <div>Bennington</div>
-                    <div>Caledonia</div>
-                    <div>Chittenden</div>
-                    <div>Essex</div>
-                    <div>Franklin</div>
-                    <div>Grand Isle</div>
-                    <div>Lamoille</div>
-                    <div>Orange</div>
-                    <div>Orleans</div>
-                    <div>Rutland</div>
-                    <div>Washington</div>
-                    <div>Windham</div>
-                    <div>Windsor</div>
+                    <button>Addison</button>
+                    <button>Bennington</button>
+                    <button>Caledonia</button>
+                    <button>Chittenden</button>
+                    <button>Essex</button>
+                    <button>Franklin</button>
+                    <button>Grand Isle</button>
+                    <button>Lamoille</button>
+                    <button>Orange</button>
+                    <button>Orleans</button>
+                    <button>Rutland</button>
+                    <button>Washington</button>
+                    <button>Windham</button>
+                    <button>Windsor</button>
                 </div>
+                <button>Cancel</button>
             </div>
         )
     }
 }
-
-
 export default Modal
