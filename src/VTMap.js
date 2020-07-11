@@ -54,7 +54,7 @@ class VTMap extends React.Component {
             gamePlay: false,
             playerScore: 100,
             modalDisplayed: false,
-            //add county state
+            //add county to state
         };
     }
 
@@ -157,7 +157,7 @@ class VTMap extends React.Component {
 
         console.log(this.state.startingCoords);
         this.countyGuess(this.state.startingCoords.latitude, this.state.startingCoords.longitude)
-        
+
         return (
             <div className="game-container">
                 {this.state.modalDisplayed ? <Modal openModal={this.openModal} /> : null}
