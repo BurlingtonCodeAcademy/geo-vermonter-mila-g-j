@@ -43,7 +43,7 @@ class VTMap extends React.Component {
         latitude: 44.2601,
         longitude: -72.5754,
       },
-      playStart: {
+      scoreCheckCoords: {
         latitude: 44.2601,
         longitude: -72.5754,
       }, //startingCoords and playStart are meant to be used as a comparison against one another
@@ -70,7 +70,7 @@ class VTMap extends React.Component {
         gameStarted: true,
         startingCoords: randomCoord,
         scoreCheckCoords: randomCoord,
-        zoomIn: 14,
+        zoomIn: 16,
       };
     });
   };
@@ -90,6 +90,7 @@ class VTMap extends React.Component {
   //movement buttons
   north = () => {
     this.setState({
+      playerScore: this.state.playerScore - 10,
       startingCoords: {
         latitude: this.state.startingCoords.latitude + 0.002,
         longitude: this.state.startingCoords.longitude,
@@ -98,6 +99,7 @@ class VTMap extends React.Component {
   };
   south = () => {
     this.setState({
+      playerScore: this.state.playerScore - 10,
       startingCoords: {
         latitude: this.state.startingCoords.latitude - 0.002,
         longitude: this.state.startingCoords.longitude,
@@ -106,6 +108,7 @@ class VTMap extends React.Component {
   };
   east = () => {
     this.setState({
+      playerScore: this.state.playerScore - 10,
       startingCoords: {
         latitude: this.state.startingCoords.latitude,
         longitude: this.state.startingCoords.longitude + 0.003,
@@ -114,6 +117,7 @@ class VTMap extends React.Component {
   };
   west = () => {
     this.setState({
+      playerScore: this.state.playerScore - 10,
       startingCoords: {
         latitude: this.state.startingCoords.latitude,
         longitude: this.state.startingCoords.longitude - 0.003,
@@ -133,10 +137,6 @@ class VTMap extends React.Component {
   //resets board and starts at mid point of map
   returnPosition = () => {
     this.setState({
-      startingCoords: {
-        latitude: 44.2601,
-        longitude: -72.5754,
-      },
       gameStarted: false
     })
     setTimeout(() => { window.location.reload(); }, 150)
@@ -154,12 +154,13 @@ class VTMap extends React.Component {
     });
   };
 
-  //score tracker 5000, compares the two states against eachother and deducts points
-  score = () => {
-    if (this.state.startingCoords !== this.state.scoreCheckCoords) {
-      return this.setState.playerScore - 10;
-    }
-  };
+  zoomOut = () => {
+    this.setState({
+      zoomIn: this.state.zoomIn -1,
+    })
+  }
+
+
 
   render() {
     let vtBorder = borderData.geometry.coordinates[0].map((coordSet) => {
@@ -236,10 +237,10 @@ class VTMap extends React.Component {
           <button id="zoom-out">Zoom Out</button>
         </div>
         <div id='infoPanel'>
-          <p>`Latitude: {this.state.startingCoords.latitude}`</p>
-          <p>`Longitude: {this.state.startingCoords.longitude}`</p>
+          <p>Latitude: {this.state.scoreCheckCoords.latitude}</p>
+          <p>Longitude: {this.state.scoreCheckCoords.longitude}</p>
           <p>County:</p>
-          <p>`Score: {this.state.playerScore}`</p>
+          <p>Score: {this.state.playerScore}</p>
         </div>
       </div>
     );
