@@ -81,7 +81,7 @@ class VTMap extends React.Component {
     });
   };
 
-  //setting county
+  //setting county - fetchs data
   getCounty = (lat, lon) => {
     fetch(
       `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`
@@ -94,6 +94,27 @@ class VTMap extends React.Component {
         })
       });
   };
+
+ 
+  countyGuess = (evt) => {
+    console.log(evt.target.getAttribute("id"))
+    console.log(this.state.county)
+    if (this.state.county === evt.target.getAttribute("id")) {
+      console.log("Correct")
+      this.setState({
+        status: "correct",
+      })
+      //add function
+    } else {
+      this.setState({
+        playerScore: this.state.playerScore -20,
+        status: "wrong"
+      })
+      console.log("Wrong")
+    }
+  }
+
+  //create end game function
 
   //movement buttons
   north = () => {
@@ -168,30 +189,6 @@ class VTMap extends React.Component {
     })
   }
 
-
-  countyGuess = (evt) => {
-    console.log(evt.target.getAttribute("id"))
-    console.log(this.state.county)
-    if (this.state.county === evt.target.getAttribute("id")) {
-      this.setState({
-        guess: true,
-      })
-      console.log("Correct")
-    } else {
-      this.setState({
-        playerScore: this.state.playerScore -20,
-      })
-      console.log(this.state.playerScore)
-    }
-  }
-
-  didYouWin = () => {
-    if(this.state.guess === false) {
-      alert('You are Wrong!')
-    }
-  }
-
-
   render() {
     let vtBorder = borderData.geometry.coordinates[0].map((coordSet) => {
       return [coordSet[1], coordSet[0]];
@@ -202,7 +199,7 @@ class VTMap extends React.Component {
     return (
       <div className="game-container">
         {this.state.modalDisplayed ? (
-          <Modal closeModal={this.closeModal} countyGuess={this.countyGuess}/>
+          <Modal closeModal={this.closeModal} countyGuess={this.countyGuess} status ={this.state.status}/>
         ) : null}
         <h1>Geo-Vermonter</h1>
         <Map
