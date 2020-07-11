@@ -53,6 +53,7 @@ class VTMap extends React.Component {
       gamePlay: false,
       playerScore: 100,
       modalDisplayed: false,
+      zoomIn: 8,
       //add county state
     };
   }
@@ -69,6 +70,7 @@ class VTMap extends React.Component {
         gameStarted: true,
         startingCoords: randomCoord,
         scoreCheckCoords: randomCoord,
+        zoomIn: 14,
       };
     });
   };
@@ -118,15 +120,27 @@ class VTMap extends React.Component {
       },
     });
   };
-  //give up function to pair with button
+
   giveUp = () => {
-    this.setState({ gamePlay: false });
-  };
+    this.setState({ gamePlay:false})
+  }
 
   //guess displays the modal for the county guess
   guess = () => {
     this.setState({ modalDisplayed: true });
   };
+
+  //resets board and starts at mid point of map
+  returnPosition = () => {
+    this.setState({
+      startingCoords: {
+        latitude: 44.2601,
+        longitude: -72.5754,
+      },
+      gameStarted: false
+    })
+    setTimeout(() => { window.location.reload(); }, 150)
+  }
 
   openModal = () => {
     this.setState({
@@ -166,7 +180,7 @@ class VTMap extends React.Component {
         <h1>Geo-Vermonter</h1>
         <Map
           center={[44.0886, -72.7317]}
-          zoom={7.4}
+          zoom={this.state.zoomIn}
           style={{ height: "600px", width: "600px" }}
           dragging={false}
           boxZoom={false}
@@ -208,6 +222,9 @@ class VTMap extends React.Component {
           >
             Give Up
           </button>
+          <button id='resetBoard' onClick={this.returnPosition}>
+            Reset
+          </button>
         </div>
         <div className="controls">
           <button onClick={this.north}>North</button>
@@ -216,11 +233,11 @@ class VTMap extends React.Component {
           <button onClick={this.east}>East</button>
           <button id="zoom-out">Zoom Out</button>
         </div>
-        <div>
-          <p>Latitude:</p>
-          <p>Longitude:</p>
+        <div id='infoPanel'>
+          <p>`Latitude: {this.state.startingCoords.latitude}`</p>
+          <p>`Longitude: {this.state.startingCoords.longitude}`</p>
           <p>County:</p>
-          <p>Score:</p>
+          <p>`Score: {this.state.playerScore}`</p>
         </div>
       </div>
     );
