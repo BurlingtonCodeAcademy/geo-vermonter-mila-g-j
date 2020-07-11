@@ -179,7 +179,7 @@ class VTMap extends React.Component {
         ) : null}
         <h1>Geo-Vermonter</h1>
         <Map
-          center={[44.0886, -72.7317]}
+          center={[this.state.startingCoords.latitude, this.state.startingCoords.longitude]}
           zoom={this.state.zoomIn}
           style={{ height: "600px", width: "600px" }}
           dragging={false}
