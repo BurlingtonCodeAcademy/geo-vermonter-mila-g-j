@@ -76,6 +76,7 @@ class VTMap extends React.Component {
         startingCoords: randomCoord,
         scoreCheckCoords: randomCoord,
         zoomIn: 16,
+        guess: false,
       };
     });
   };
@@ -133,7 +134,7 @@ class VTMap extends React.Component {
   };
 
   giveUp = () => {
-    this.setState({ gamePlay: false })
+    this.setState({ gameStarted: false })
   }
 
   //guess displays the modal for the county guess
@@ -172,12 +173,21 @@ class VTMap extends React.Component {
     console.log(evt.target.getAttribute("id"))
     console.log(this.state.county)
     if (this.state.county === evt.target.getAttribute("id")) {
+      this.setState({
+        guess: true,
+      })
       console.log("Correct")
     } else {
       this.setState({
         playerScore: this.state.playerScore -20,
       })
-      console.log("Wrong")
+      console.log(this.state.playerScore)
+    }
+  }
+
+  didYouWin = () => {
+    if(this.state.guess === false) {
+      alert('You are Wrong!')
     }
   }
 

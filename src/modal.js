@@ -15,6 +15,9 @@ class Modal extends React.Component {
             <div buttonlabel="guess-list">
                 <h1>Which County are you in?</h1>
                 <h3>There are only 14</h3>
+                <div id='answer-box'>
+                    <p>Guess  : {this.props.didYouWin} </p>
+                </div>
                 <div id='county-list'>
                     <button id="addison-county" onClick={this.props.countyGuess}>Addison</button>
                     <button id="bennington-county" onClick={this.props.countyGuess}>Bennington</button>
