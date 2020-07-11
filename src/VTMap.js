@@ -50,7 +50,7 @@ class VTMap extends React.Component {
       zoom: 8,
       //map start state
       vtBorder: L.geoJSON(borderData),
-      gamePlay: false,
+      gameStarted: false,
       playerScore: 100,
       modalDisplayed: false,
       zoomIn: 7.45,
@@ -265,6 +265,9 @@ class VTMap extends React.Component {
           <p>County:</p>
           <p>Score: {this.state.playerScore}</p>
         </div>
+      <div id="highScore-box">
+            <h3>Highscores</h3>
+      </div>
       </div>
     );
   }
