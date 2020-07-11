@@ -1,18 +1,45 @@
 /*--------------------------VTMap--------------------------------------*/
 
 
-.game-container{
+.game-container {
     display: flex;
     flex-direction: column;
     height: 1000px;
     width: 1000px;
-    justify-content: space-around;
+    justify-content: center;
+}
+
+.game-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    border: black 2px;
+
+}
+
+.controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border: 2px;
+}
+
+.mapInfo{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.infoPanel{
+    display: flex;
+    flex-direction: column;
+
 }
 
 
 /*---------------------------Guess Modal---------------------------------------*/
 
-.guess-list{
+.guess-list {
     position: fixed;
     top: 0;
     left: 0;

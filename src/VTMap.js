@@ -55,7 +55,7 @@ class VTMap extends React.Component {
       modalDisplayed: false,
       zoomIn: 7.45,
       county: undefined,
-      status: undefined
+      status: undefined,
     };
   }
 
@@ -65,10 +65,7 @@ class VTMap extends React.Component {
 
     let randomPoint = randomVtPoint();
     let randomCoord = startingPoint(randomPoint);
-    this.getCounty(
-      randomCoord.latitude,
-      randomCoord.longitude
-    );
+    this.getCounty(randomCoord.latitude, randomCoord.longitude);
     console.log(randomPoint);
     this.setState(() => {
       return {
@@ -88,31 +85,30 @@ class VTMap extends React.Component {
     )
       .then((res) => res.json())
       .then((obj) => {
-        console.log(obj.address.county)
+        console.log(obj.address.county);
         this.setState({
-          county: obj.address.county.split(" ").join("-").toLowerCase()
-        })
+          county: obj.address.county.split(" ").join("-").toLowerCase(),
+        });
       });
   };
 
- 
   countyGuess = (evt) => {
-    console.log(evt.target.getAttribute("id"))
-    console.log(this.state.county)
+    console.log(evt.target.getAttribute("id"));
+    console.log(this.state.county);
     if (this.state.county === evt.target.getAttribute("id")) {
-      console.log("Correct")
+      console.log("Correct");
       this.setState({
         status: "correct",
-      })
+      });
       //add function
     } else {
       this.setState({
-        playerScore: this.state.playerScore -20,
-        status: "wrong"
-      })
-      console.log("Wrong")
+        playerScore: this.state.playerScore - 20,
+        status: "wrong",
+      });
+      console.log("Wrong");
     }
-  }
+  };
 
   //create end game function
 
@@ -157,8 +153,9 @@ class VTMap extends React.Component {
   giveUp = () => {
     this.setState({
       gameStarted: false,
-      playerScore: this.state.playerScore -20, })
-  }
+      playerScore: this.state.playerScore - 20,
+    });
+  };
 
   //guess displays the modal for the county guess
   guess = () => {
@@ -168,11 +165,15 @@ class VTMap extends React.Component {
   //resets board and starts at mid point of map
   returnPosition = () => {
     this.setState({
-      gameStarted: false
-    })
-    alert("You have reset. I award you no points, and may God have mercy on your soul.")
-    setTimeout(() => { window.location.reload(); }, 1500)
-  }
+      gameStarted: false,
+    });
+    alert(
+      "You have reset. I award you no points, and may God have mercy on your soul."
+    );
+    setTimeout(() => {
+      window.location.reload();
+    }, 1500);
+  };
 
   openModal = () => {
     this.setState({
@@ -188,10 +189,10 @@ class VTMap extends React.Component {
 
   zoomOut = () => {
     this.setState({
-      zoomIn: this.state.zoomIn -1,
-      playerScore: this.state.playerScore -10,
-    })
-  }
+      zoomIn: this.state.zoomIn - 1,
+      playerScore: this.state.playerScore - 10,
+    });
+  };
 
   render() {
     let vtBorder = borderData.geometry.coordinates[0].map((coordSet) => {
@@ -203,34 +204,50 @@ class VTMap extends React.Component {
     return (
       <div className="game-container">
         {this.state.modalDisplayed ? (
-          <Modal closeModal={this.closeModal} countyGuess={this.countyGuess} status ={this.state.status}/>
+          <Modal
+            closeModal={this.closeModal}
+            countyGuess={this.countyGuess}
+            status={this.state.status}
+          />
         ) : null}
         <h1>Geo-Vermonter</h1>
-        <Map
-          center={[this.state.startingCoords.latitude, this.state.startingCoords.longitude]}
-          zoom={this.state.zoomIn}
-          style={{ height: "600px", width: "600px" }}
-          dragging={false}
-          boxZoom={false}
-          doubleClickZoom={false}
-          zoomControl={false}
-          scrollWheelZoom={false}
-          touchZoom={false}
-        >
-          <TileLayer
-            url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-            attribution="Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
-          />
-
-          <Polygon positions={vtBorder} />
-          <Marker
-            position={[
+        <div className="mapInfo">
+          <Map
+            id="map"
+            center={[
               this.state.startingCoords.latitude,
               this.state.startingCoords.longitude,
             ]}
-          />
-        </Map>
-        <div className="game">
+            zoom={this.state.zoomIn}
+            style={{ height: "600px", width: "600px" }}
+            dragging={false}
+            boxZoom={false}
+            doubleClickZoom={false}
+            zoomControl={false}
+            scrollWheelZoom={false}
+            touchZoom={false}
+          >
+            <TileLayer
+              url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+              attribution="Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community"
+            />
+
+            <Polygon positions={vtBorder} />
+            <Marker
+              position={[
+                this.state.startingCoords.latitude,
+                this.state.startingCoords.longitude,
+              ]}
+            />
+          </Map>
+          <div className="infoPanel">
+            <p>Latitude: {this.state.scoreCheckCoords.latitude}</p>
+            <p>Longitude: {this.state.scoreCheckCoords.longitude}</p>
+            <p>County:</p>
+            <p>Score: {this.state.playerScore}</p>
+          </div>
+        </div>
+        <div className="game-buttons">
           <button
             id="start-game"
             onClick={this.startGame}
@@ -252,26 +269,31 @@ class VTMap extends React.Component {
           >
             Give Up
           </button>
-          <button id='resetBoard' onClick={this.returnPosition}>
+          <button id="resetBoard" onClick={this.returnPosition}>
             Reset
           </button>
         </div>
         <div className="controls">
-          <button onClick={this.north}>North</button>
-          <button onClick={this.south}>South</button>
-          <button onClick={this.west}>West</button>
-          <button onClick={this.east}>East</button>
-          <button onClick={this.zoomOut}>Zoom Out</button>
+          <button id="movementButtons" onClick={this.north}>
+            North
+          </button>
+          <button id="movementButtons" onClick={this.south}>
+            South
+          </button>
+          <button id="movementButtons" onClick={this.west}>
+            West
+          </button>
+          <button id="movementButtons" onClick={this.east}>
+            East
+          </button>
+          <button id="movementButtons" onClick={this.zoomOut}>
+            Zoom Out
+          </button>
         </div>
-        <div id='infoPanel'>
-          <p>Latitude: {this.state.scoreCheckCoords.latitude}</p>
-          <p>Longitude: {this.state.scoreCheckCoords.longitude}</p>
-          <p>County:</p>
-          <p>Score: {this.state.playerScore}</p>
+
+        <div id="highScore-box">
+          <h3>Highscores</h3>
         </div>
-      <div id="highScore-box">
-            <h3>Highscores</h3>
-      </div>
       </div>
     );
   }
