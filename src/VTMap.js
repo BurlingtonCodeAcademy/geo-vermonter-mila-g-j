@@ -53,10 +53,7 @@ class VTMap extends React.Component {
       gamePlay: false,
       playerScore: 100,
       modalDisplayed: false,
-      //county: {
-      //   lat:
-      //   lon:
-      // }
+      county: undefined
     };
   }
 
@@ -66,6 +63,10 @@ class VTMap extends React.Component {
 
     let randomPoint = randomVtPoint();
     let randomCoord = startingPoint(randomPoint);
+    this.countyGuess(
+      randomCoord.latitude,
+      randomCoord.longitude
+    );
     console.log(randomPoint);
     this.setState(() => {
       return {
@@ -76,15 +77,19 @@ class VTMap extends React.Component {
     });
   };
 
+  //setting county
   countyGuess = (lat, lon) => {
     //let latLon = []
 
     fetch(
-      `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=geojson`
+      `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`
     )
       .then((res) => res.json())
-      .then((geoJSON) => {
-        console.log(geoJSON);
+      .then((obj) => {
+        console.log(obj.address.county)
+        this.setState({
+          county: obj.address.county.split()
+        })
       });
   };
 
@@ -156,10 +161,7 @@ class VTMap extends React.Component {
     });
 
     console.log(this.state.startingCoords);
-    this.countyGuess(
-      this.state.startingCoords.latitude,
-      this.state.startingCoords.longitude
-    );
+
 
     return (
       <div className="game-container">
