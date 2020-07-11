@@ -80,7 +80,7 @@ class VTMap extends React.Component {
     });
   };
 
-  //setting county
+  //setting county - fetchs data
   getCounty = (lat, lon) => {
     fetch(
       `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`
@@ -93,6 +93,21 @@ class VTMap extends React.Component {
         })
       });
   };
+
+  //checks county
+  countyGuess = (evt) => {
+    console.log(evt.target.getAttribute("id"))
+    console.log(this.state.county)
+    if (this.state.county === evt.target.getAttribute("id")) {
+      console.log("Correct")
+      //add game end function
+    } else {
+      console.log("Wrong")
+      // we need to change the player score
+    }
+  }
+
+  //create end game function
 
   //movement buttons
   north = () => {
@@ -161,15 +176,7 @@ class VTMap extends React.Component {
     });
   };
 
-  countyGuess = (evt) => {
-    console.log(evt.target.getAttribute("id"))
-    console.log(this.state.county)
-    if (this.state.county === evt.target.getAttribute("id")) {
-      console.log("Correct")
-    } else {
-      console.log("Wrong")
-    }
-  }
+ 
 
   //score tracker 5000, compares the two states against eachother and deducts points
   score = () => {
