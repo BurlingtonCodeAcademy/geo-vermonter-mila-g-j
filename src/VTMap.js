@@ -46,14 +46,17 @@ class VTMap extends React.Component {
       playStart: {
         latitude: 44.2601,
         longitude: -72.5754,
-      }, //startingCoords and playStart are meant to be used as a comparison against oneanother
+      }, //startingCoords and playStart are meant to be used as a comparison against one another
       zoom: 8,
       //map start state
       vtBorder: L.geoJSON(borderData),
       gamePlay: false,
       playerScore: 100,
       modalDisplayed: false,
-      //add county state
+      //county: {
+      //   lat:
+      //   lon:
+      // }
     };
   }
 
@@ -172,6 +175,8 @@ class VTMap extends React.Component {
           boxZoom={false}
           doubleClickZoom={false}
           zoomControl={false}
+          scrollWheelZoom={false}
+
         >
           <TileLayer
             url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
