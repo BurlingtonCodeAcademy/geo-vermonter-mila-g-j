@@ -155,7 +155,9 @@ class VTMap extends React.Component {
   };
 
   giveUp = () => {
-    this.setState({ gameStarted: false })
+    this.setState({
+      gameStarted: false,
+      playerScore: this.state.playerScore -20, })
   }
 
   //guess displays the modal for the county guess
@@ -168,7 +170,8 @@ class VTMap extends React.Component {
     this.setState({
       gameStarted: false
     })
-    setTimeout(() => { window.location.reload(); }, 150)
+    alert("You have reset. I award you no points, and may God have mercy on your soul.")
+    setTimeout(() => { window.location.reload(); }, 1500)
   }
 
   openModal = () => {
@@ -186,6 +189,7 @@ class VTMap extends React.Component {
   zoomOut = () => {
     this.setState({
       zoomIn: this.state.zoomIn -1,
+      playerScore: this.state.playerScore -10,
     })
   }
 
@@ -257,7 +261,7 @@ class VTMap extends React.Component {
           <button onClick={this.south}>South</button>
           <button onClick={this.west}>West</button>
           <button onClick={this.east}>East</button>
-          <button id="zoom-out">Zoom Out</button>
+          <button onClick={this.zoomOut}>Zoom Out</button>
         </div>
         <div id='infoPanel'>
           <p>Latitude: {this.state.scoreCheckCoords.latitude}</p>
