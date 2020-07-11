@@ -16,22 +16,22 @@ class Modal extends React.Component {
                 <h1>Which County are you in?</h1>
                 <h3>There are only 14</h3>
                 <div id='county-list'>
-                    <button>Addison</button>
-                    <button>Bennington</button>
-                    <button>Caledonia</button>
-                    <button>Chittenden</button>
-                    <button>Essex</button>
-                    <button>Franklin</button>
-                    <button>Grand Isle</button>
-                    <button>Lamoille</button>
-                    <button>Orange</button>
-                    <button>Orleans</button>
-                    <button>Rutland</button>
-                    <button>Washington</button>
-                    <button>Windham</button>
-                    <button>Windsor</button>
+                    <button id="addison-county" onClick={this.props.countyGuess}>Addison</button>
+                    <button id="bennington-county" onClick={this.props.countyGuess}>Bennington</button>
+                    <button id="caledonia-county" onClick={this.props.countyGuess}>Caledonia</button>
+                    <button id="chittenden-county" onClick={this.props.countyGuess}>Chittenden</button>
+                    <button id="essex-county" onClick={this.props.countyGuess}>Essex</button>
+                    <button id="franklin-county" onClick={this.props.countyGuess}>Franklin</button>
+                    <button id="grand-isle-county" onClick={this.props.countyGuess}>Grand Isle</button>
+                    <button id="lamoille-county" onClick={this.props.countyGuess}>Lamoille</button>
+                    <button id="orange-county" onClick={this.props.countyGuess}>Orange</button>
+                    <button id="orleans-county" onClick={this.props.countyGuess}>Orleans</button>
+                    <button id="rutland-county" onClick={this.props.countyGuess}>Rutland</button>
+                    <button id="washington-county" onClick={this.props.countyGuess}>Washington</button>
+                    <button id="windham-county" onClick={this.props.countyGuess}>Windham</button>
+                    <button id="windsor-county" onClick={this.props.countyGuess}>Windsor</button>
                 </div>
-                <button onClick={this.props.openModal}>Cancel</button>
+                <button onClick={this.props.closeModal}>Cancel</button>
             </div>
         )
     }

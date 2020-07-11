@@ -53,8 +53,9 @@ class VTMap extends React.Component {
       gamePlay: false,
       playerScore: 100,
       modalDisplayed: false,
-      zoomIn: 8,
-      //add county state
+      zoomIn: 7.45,
+      county: undefined,
+      status: undefined
     };
   }
 
@@ -64,6 +65,10 @@ class VTMap extends React.Component {
 
     let randomPoint = randomVtPoint();
     let randomCoord = startingPoint(randomPoint);
+    this.getCounty(
+      randomCoord.latitude,
+      randomCoord.longitude
+    );
     console.log(randomPoint);
     this.setState(() => {
       return {
@@ -75,15 +80,17 @@ class VTMap extends React.Component {
     });
   };
 
-  countyGuess = (lat, lon) => {
-    //let latLon = []
-
+  //setting county
+  getCounty = (lat, lon) => {
     fetch(
-      `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=geojson`
+      `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`
     )
       .then((res) => res.json())
-      .then((geoJSON) => {
-        console.log(geoJSON);
+      .then((obj) => {
+        console.log(obj.address.county)
+        this.setState({
+          county: obj.address.county.split(" ").join("-").toLowerCase()
+        })
       });
   };
 
@@ -126,7 +133,7 @@ class VTMap extends React.Component {
   };
 
   giveUp = () => {
-    this.setState({ gamePlay:false})
+    this.setState({ gamePlay: false })
   }
 
   //guess displays the modal for the county guess
@@ -161,6 +168,19 @@ class VTMap extends React.Component {
   }
 
 
+  countyGuess = (evt) => {
+    console.log(evt.target.getAttribute("id"))
+    console.log(this.state.county)
+    if (this.state.county === evt.target.getAttribute("id")) {
+      console.log("Correct")
+    } else {
+      this.setState({
+        playerScore: this.state.playerScore -20,
+      })
+      console.log("Wrong")
+    }
+  }
+
 
   render() {
     let vtBorder = borderData.geometry.coordinates[0].map((coordSet) => {
@@ -168,15 +188,11 @@ class VTMap extends React.Component {
     });
 
     console.log(this.state.startingCoords);
-    this.countyGuess(
-      this.state.startingCoords.latitude,
-      this.state.startingCoords.longitude
-    );
 
     return (
       <div className="game-container">
         {this.state.modalDisplayed ? (
-          <Modal openModal={this.openModal} />
+          <Modal closeModal={this.closeModal} countyGuess={this.countyGuess}/>
         ) : null}
         <h1>Geo-Vermonter</h1>
         <Map
@@ -188,7 +204,7 @@ class VTMap extends React.Component {
           doubleClickZoom={false}
           zoomControl={false}
           scrollWheelZoom={false}
-
+          touchZoom={false}
         >
           <TileLayer
             url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
