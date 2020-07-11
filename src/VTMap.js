@@ -64,7 +64,7 @@ class VTMap extends React.Component {
 
         let randomPoint = randomVtPoint();
         let randomCoord = startingPoint(randomPoint);
-        console.log("string");
+        console.log(randomPoint);
         this.setState(() => {
             return {
                 gameStarted: true,
@@ -72,7 +72,7 @@ class VTMap extends React.Component {
                 scoreCheckCoords: randomCoord,
             };
         });
-        console.log("string");
+        
     }
 
     countyGuess = (lat, lon) => {
