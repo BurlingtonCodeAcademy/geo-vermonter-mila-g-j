@@ -87,11 +87,13 @@ class VTMap extends React.Component {
       .then((obj) => {
         console.log(obj.address.county);
         this.setState({
+          countyInfo: obj.address.county,
           county: obj.address.county.split(" ").join("-").toLowerCase(),
         });
       });
   };
 
+  //checks if guess is correct or wrong
   countyGuess = (evt) => {
     console.log(evt.target.getAttribute("id"));
     console.log(this.state.county);
@@ -99,8 +101,9 @@ class VTMap extends React.Component {
       console.log("Correct");
       this.setState({
         status: "correct",
+        modalDisplayed: false,
+        gameStarted: false
       });
-      //add function
     } else {
       this.setState({
         playerScore: this.state.playerScore - 20,
@@ -109,8 +112,6 @@ class VTMap extends React.Component {
       console.log("Wrong");
     }
   };
-
-  //create end game function
 
   //movement buttons
   north = () => {
@@ -146,6 +147,17 @@ class VTMap extends React.Component {
       startingCoords: {
         latitude: this.state.startingCoords.latitude,
         longitude: this.state.startingCoords.longitude - 0.003,
+      },
+    });
+  };
+
+  //starting coords are not working
+  return = () => {
+    this.setState({
+      playerScore: this.state.playerScore,
+      startingCoords: {
+        latitude: this.state.startingCoords.latitude,
+        longitude: this.state.startingCoords.longitude,
       },
     });
   };
@@ -226,6 +238,7 @@ class VTMap extends React.Component {
             zoomControl={false}
             scrollWheelZoom={false}
             touchZoom={false}
+            stroke={true}
           >
             <TileLayer
               url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
@@ -243,8 +256,9 @@ class VTMap extends React.Component {
           <div className="infoPanel">
             <p>Latitude: {this.state.scoreCheckCoords.latitude}</p>
             <p>Longitude: {this.state.scoreCheckCoords.longitude}</p>
-            <p>County:</p>
+            <p>County: {this.state.status==="correct" ? this.state.countyInfo : ""}</p>
             <p>Score: {this.state.playerScore}</p>
+            <h3>{this.state.status}</h3>
           </div>
         </div>
         <div className="game-buttons">
@@ -289,10 +303,13 @@ class VTMap extends React.Component {
           <button id="movementButtons" onClick={this.zoomOut}>
             Zoom Out
           </button>
+          <button id="movementButtons" onClick={this.return}>
+            Return
+          </button>
         </div>
 
         <div id="highScore-box">
-          <h3>Highscores</h3>
+          <button>Highscores</button>
         </div>
       </div>
     );
