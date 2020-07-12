@@ -1,10 +1,11 @@
 import React from "react";
-import { Map, TileLayer, Polygon, Marker } from "react-leaflet";
+import { Map, TileLayer, Polygon, Marker, Polyline } from "react-leaflet";
 import borderData from "./border.js";
 import "./VTMap.css";
 import L from "leaflet";
 import leafletPip from "leaflet-pip";
 import Modal from "./modal.js";
+import HsModal from "./hsModal.js";
 
 //creates a random point in "Vermont"
 function randomVtPoint() {
@@ -56,6 +57,8 @@ class VTMap extends React.Component {
       zoomIn: 7.45,
       county: undefined,
       status: undefined,
+      highscoreDisplay: false,
+      allPositions: []
     };
   }
 
@@ -74,6 +77,7 @@ class VTMap extends React.Component {
         scoreCheckCoords: randomCoord,
         zoomIn: 16,
         guess: false,
+        allPositions: [[randomCoord.latitude, randomCoord.longitude]] 
       };
     });
   };
@@ -115,49 +119,64 @@ class VTMap extends React.Component {
 
   //movement buttons
   north = () => {
-    this.setState({
-      playerScore: this.state.playerScore - 10,
-      startingCoords: {
-        latitude: this.state.startingCoords.latitude + 0.002,
-        longitude: this.state.startingCoords.longitude,
-      },
+    this.setState((preState) => {
+      return {
+        playerScore: preState.playerScore - 10,
+        startingCoords: {
+          latitude: preState.startingCoords.latitude + 0.002,
+          longitude: preState.startingCoords.longitude,
+        },
+        allPositions: preState.allPositions.concat([[preState.startingCoords.latitude + .002, preState.startingCoords.longitude]])
+      }
     });
   };
+
   south = () => {
-    this.setState({
-      playerScore: this.state.playerScore - 10,
-      startingCoords: {
-        latitude: this.state.startingCoords.latitude - 0.002,
-        longitude: this.state.startingCoords.longitude,
-      },
+    this.setState((preState) => {
+      return {
+        playerScore: this.state.playerScore - 10,
+        startingCoords: {
+          latitude: this.state.startingCoords.latitude - 0.002,
+          longitude: this.state.startingCoords.longitude,
+        },
+        allPositions: preState.allPositions.concat([[preState.startingCoords.latitude - 0.002, preState.startingCoords.longitude]])
+      }
+
     });
   };
   east = () => {
-    this.setState({
-      playerScore: this.state.playerScore - 10,
-      startingCoords: {
-        latitude: this.state.startingCoords.latitude,
-        longitude: this.state.startingCoords.longitude + 0.003,
-      },
+    this.setState((preState) => {
+      return {
+        playerScore: this.state.playerScore - 10,
+        startingCoords: {
+          latitude: this.state.startingCoords.latitude,
+          longitude: this.state.startingCoords.longitude + 0.003,
+        },
+        allPositions: preState.allPositions.concat([[preState.startingCoords.latitude, preState.startingCoords.longitude + 0.003]])
+      }
     });
   };
+
   west = () => {
-    this.setState({
-      playerScore: this.state.playerScore - 10,
-      startingCoords: {
-        latitude: this.state.startingCoords.latitude,
-        longitude: this.state.startingCoords.longitude - 0.003,
-      },
+    this.setState((preState) => {
+      return {
+        playerScore: this.state.playerScore - 10,
+        startingCoords: {
+          latitude: this.state.startingCoords.latitude,
+          longitude: this.state.startingCoords.longitude - 0.003,
+        },
+        allPositions: preState.allPositions.concat([[preState.startingCoords.latitude, preState.startingCoords.longitude - 0.003]])
+      }
     });
   };
 
   //starting coords are not working
-  return = () => {
+  returnOriginalPosition = () => {
     this.setState({
       playerScore: this.state.playerScore,
       startingCoords: {
-        latitude: this.state.startingCoords.latitude,
-        longitude: this.state.startingCoords.longitude,
+        latitude: this.state.scoreCheckCoords.latitude,
+        longitude: this.state.scoreCheckCoords.longitude,
       },
     });
   };
@@ -206,12 +225,21 @@ class VTMap extends React.Component {
     });
   };
 
+  hsOpenModal = () => {
+    this.setState({ highscoreDisplay: true })
+  }
+
+  hsCloseModal = () => {
+    this.setState({ highscoreDisplay: false })
+  }
+
   render() {
     let vtBorder = borderData.geometry.coordinates[0].map((coordSet) => {
       return [coordSet[1], coordSet[0]];
     });
 
     console.log(this.state.startingCoords);
+    console.log(this.state.allPositions)
 
     return (
       <div className="game-container">
@@ -222,6 +250,13 @@ class VTMap extends React.Component {
             status={this.state.status}
           />
         ) : null}
+        {this.state.highscoreDisplay ? (
+          <HsModal
+            hsCloseModal={this.hsCloseModal}
+            status={this.state.status}
+          />
+        ) : null}
+
         <h1>Geo-Vermonter</h1>
         <div className="mapInfo">
           <Map
@@ -252,11 +287,20 @@ class VTMap extends React.Component {
                 this.state.startingCoords.longitude,
               ]}
             />
+
+            {this.state.allPositions.length > 1 ? (
+              <Polyline
+                positions={
+                  this.state.allPositions
+                }
+              />) : undefined
+            }
+
           </Map>
           <div className="infoPanel">
             <p>Latitude: {this.state.scoreCheckCoords.latitude}</p>
             <p>Longitude: {this.state.scoreCheckCoords.longitude}</p>
-            <p>County: {this.state.status==="correct" ? this.state.countyInfo : ""}</p>
+            <p>County: {this.state.status === "correct" ? this.state.countyInfo : ""}</p>
             <p>Score: {this.state.playerScore}</p>
             <h3>{this.state.status}</h3>
           </div>
@@ -303,13 +347,13 @@ class VTMap extends React.Component {
           <button id="movementButtons" onClick={this.zoomOut}>
             Zoom Out
           </button>
-          <button id="movementButtons" onClick={this.return}>
+          <button id="movementButtons" onClick={this.returnOriginalPosition}>
             Return
           </button>
         </div>
 
         <div id="highScore-box">
-          <button>Highscores</button>
+          <button onClick={this.hsOpenModal}>Highscores</button>
         </div>
       </div>
     );
