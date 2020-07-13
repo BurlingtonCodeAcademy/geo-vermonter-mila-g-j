@@ -15,6 +15,10 @@ class HsModal extends React.Component {
         return (
             <div buttonlabel="guess-list">
                 <h1>Highscores</h1>
+                <h1>These are highscores</h1>
+                <ol>
+
+                </ol>
                 <button onClick={this.props.hsCloseModal}>Close</button>
             </div>
         )
