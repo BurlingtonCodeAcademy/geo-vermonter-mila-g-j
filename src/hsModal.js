@@ -7,16 +7,20 @@ class HsModal extends React.Component {
         super(props)
 
         this.state = {
-            
+
         }
     }
 
     render() {
+        console.log(this.props.scores)
         return (
             <div buttonlabel="guess-list">
+                
                 <h1>Highscores</h1>
-                {this.props.scores}
                 <ol>
+                {this.props.scores.map(item => (
+                    <li>Name:{JSON.parse(item[0])} Score:{item[1]}</li>
+                ))}
 
                 </ol>
                 <button onClick={this.props.hsCloseModal}>Close</button>

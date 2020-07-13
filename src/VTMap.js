@@ -284,8 +284,28 @@ class VTMap extends React.Component {
   }
 
   componentDidMount() {
-    window.localStorage.clear()
+    // window.localStorage.clear()
   }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    let initials = JSON.stringify(this.state.value)
+    let score = JSON.stringify(this.state.playerScore)
+    console.log(Object.entries(localStorage))
+    Object.entries(localStorage)
+    
+   
+    window.localStorage.setItem(initials, score)
+    {this.state.localStorageState()}
+
+    console.log(window.localStorage)
+    console.log(this.state.value)
+    console.log(this.state.playerScore)
+}
+
+handleGetData = () => {
+    console.log(window.localStorage.getItem("test"))
+}
 
   render() {
     let vtBorder = borderData.geometry.coordinates[0].map((coordSet) => {
@@ -319,6 +339,7 @@ class VTMap extends React.Component {
             localStorageState={this.handleStorage}
             value={this.state.value}
             handleChange={this.handleChange}
+            submitForm={this.handleSubmit}
           />
         ) : null}
         <h1>Geo-Vermonter</h1>
