@@ -1,5 +1,6 @@
 import React from 'react'
 
+//modal containing county names
 class Modal extends React.Component {
 
     constructor(props) {

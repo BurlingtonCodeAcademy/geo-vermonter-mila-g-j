@@ -1,5 +1,6 @@
 import React from 'react'
 
+//modal containing high scores
 class HsModal extends React.Component {
 
     constructor(props) {
@@ -13,7 +14,7 @@ class HsModal extends React.Component {
     render() {
         return (
             <div buttonlabel="guess-list">
-                <h1>These are highscores</h1>
+                <h1>Highscores</h1>
                 <button onClick={this.props.hsCloseModal}>Close</button>
             </div>
         )

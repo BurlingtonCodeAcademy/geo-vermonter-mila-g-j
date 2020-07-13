@@ -6,6 +6,7 @@ import L from "leaflet";
 import leafletPip from "leaflet-pip";
 import Modal from "./modal.js";
 import HsModal from "./hsModal.js";
+import InitialsModal from "./initialsModal.js";
 
 //creates a random point in "Vermont"
 function randomVtPoint() {
@@ -58,7 +59,8 @@ class VTMap extends React.Component {
       county: undefined,
       status: undefined,
       highscoreDisplay: false,
-      allPositions: []
+      allPositions: [],
+      value: ''
     };
   }
 
@@ -77,7 +79,8 @@ class VTMap extends React.Component {
         scoreCheckCoords: randomCoord,
         zoomIn: 16,
         guess: false,
-        allPositions: [[randomCoord.latitude, randomCoord.longitude]] 
+        allPositions: [[randomCoord.latitude, randomCoord.longitude]],
+        playerScore: 100
       };
     });
   };
@@ -106,7 +109,8 @@ class VTMap extends React.Component {
       this.setState({
         status: "correct",
         modalDisplayed: false,
-        gameStarted: false
+        gameStarted: false,
+        initialsDisplay: true
       });
     } else {
       this.setState({
@@ -181,10 +185,11 @@ class VTMap extends React.Component {
     });
   };
 
+  //Give up function
   giveUp = () => {
     this.setState({
       gameStarted: false,
-      playerScore: this.state.playerScore - 20,
+
     });
   };
 
@@ -206,18 +211,21 @@ class VTMap extends React.Component {
     }, 1500);
   };
 
+  //opens county list modal
   openModal = () => {
     this.setState({
       modalDisplayed: true,
     });
   };
 
+  //closes county list modal
   closeModal = () => {
     this.setState({
       modalDisplayed: false,
     });
   };
 
+  //zoom out function
   zoomOut = () => {
     this.setState({
       zoomIn: this.state.zoomIn - 1,
@@ -225,12 +233,36 @@ class VTMap extends React.Component {
     });
   };
 
+  //opens high score modal
   hsOpenModal = () => {
     this.setState({ highscoreDisplay: true })
   }
 
+  //closes high score modal
   hsCloseModal = () => {
     this.setState({ highscoreDisplay: false })
+  }
+
+  //handles change on initials form
+  handleChange(event) {
+    this.setState({ value: event.target.value });
+  }
+
+  //handles submit on initials form
+  handleSubmit(event) {
+    alert('A name was submitted: ' + this.state.value);
+    event.preventDefault();
+
+  }
+
+  //opens initials modal
+  initOpenModal = () => {
+    this.setState({ initialsDisplay: true })
+  }
+
+  //closes initials modal
+  initCloseModal = () => {
+    this.setState({ initialsDisplay: false })
   }
 
   render() {
@@ -256,7 +288,9 @@ class VTMap extends React.Component {
             status={this.state.status}
           />
         ) : null}
-
+        {this.state.initialsDisplay ? (
+          <InitialsModal />
+        ) : null}
         <h1>Geo-Vermonter</h1>
         <div className="mapInfo">
           <Map
