@@ -81,7 +81,9 @@ class VTMap extends React.Component {
         zoomIn: 16,
         guess: false,
         allPositions: [[randomCoord.latitude, randomCoord.longitude]],
-        playerScore: 100
+        playerScore: 100,
+        status: undefined,
+        initialsDisplay: false
       };
     });
   };
@@ -186,7 +188,7 @@ class VTMap extends React.Component {
     });
   };
 
-  //Give up function
+  
   //give up restarts the game, but also takes points away
   giveUp = () => {
     this.setState({
