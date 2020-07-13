@@ -63,6 +63,8 @@ class VTMap extends React.Component {
       allPositions: [],
       value: '',
       hsArray: [],
+      localStorageState: Object.entries(localStorage)
+
     };
   }
 
@@ -121,7 +123,7 @@ class VTMap extends React.Component {
       });
     } else {
       this.setState({
-        playerScore: this.state.playerScore - 20,
+        playerScore: this.preState.playerScore - 20,
         status: "Wrong",
       });
       console.log("Wrong");
@@ -184,13 +186,13 @@ class VTMap extends React.Component {
   //starting coords are not working
   returnOriginalPosition = () => {
     this.setState({
-     zoomIn: 16,
-     startingCoords: this.state.returnToNorm,
-      playerScore: this.state.playerScore -5,
+      zoomIn: 16,
+      startingCoords: this.state.returnToNorm,
+      playerScore: this.state.playerScore - 5,
     });
   };
 
-  
+
   //give up restarts the game, but also takes points away
   giveUp = () => {
     this.setState({
@@ -255,8 +257,13 @@ class VTMap extends React.Component {
   }
 
   //handles change on initials form
-  handleChange(event) {
+  handleChange = (event) => {
     this.setState({ value: event.target.value });
+  }
+
+  //handles change on initials form
+  handleStorage = () => {
+    this.setState({ localStorageState: Object.entries(localStorage) });
   }
 
   //handles submit on initials form
@@ -274,6 +281,10 @@ class VTMap extends React.Component {
   //closes initials modal
   initCloseModal = () => {
     this.setState({ initialsDisplay: false })
+  }
+
+  componentDidMount() {
+    window.localStorage.clear()
   }
 
   render() {
@@ -299,12 +310,15 @@ class VTMap extends React.Component {
             hsCloseModal={this.hsCloseModal}
             status={this.state.status}
             scoreKeeper={this.scoreKeeper}
+            scores={this.state.localStorageState}
           />
         ) : null}
         {this.state.initialsDisplay ? (
-          <InitialsModal 
-          playerScore={this.state.playerScore}
-          value={event.target.value}
+          <InitialsModal
+            playerScore={this.state.playerScore}
+            localStorageState={this.handleStorage}
+            value={this.state.value}
+            handleChange={this.handleChange}
           />
         ) : null}
         <h1>Geo-Vermonter</h1>

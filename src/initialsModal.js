@@ -13,10 +13,18 @@ class InitialsModal extends React.Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        let key = window.localStorage.length.toString()
-        let nameScore = `{name: ${this.props.value}, score: ${this.props.playesScore}}`
-        window.localStorage.setItem(key, nameScore)
+        let initials = JSON.stringify(this.props.value)
+        let score = JSON.stringify(this.props.playerScore)
+        console.log(Object.entries(localStorage))
+        Object.entries(localStorage)
+        
+       
+        window.localStorage.setItem(initials, score)
+        {this.props.localStorageState()}
+
         console.log(window.localStorage)
+        console.log(this.props.value)
+        console.log(this.props.playerScore)
     }
 
     handleGetData = () => {

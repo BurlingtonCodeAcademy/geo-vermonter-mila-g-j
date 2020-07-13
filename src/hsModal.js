@@ -15,6 +15,7 @@ class HsModal extends React.Component {
         return (
             <div buttonlabel="guess-list">
                 <h1>Highscores</h1>
+                {this.props.scores}
                 <ol>
 
                 </ol>
