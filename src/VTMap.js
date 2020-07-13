@@ -17,8 +17,8 @@ function randomVtPoint() {
 
 //checks random point against Vermont polygon - leafletPip
 function startingPoint(latLon) {
-  let gjLayer = L.geoJson(borderData);
-  let results = leafletPip.pointInLayer([latLon[1], latLon[0]], gjLayer);
+  let omniLayer = L.geoJson(borderData);
+  let results = leafletPip.pointInLayer([latLon[1], latLon[0]], omniLayer);
 
   console.log(results);
   let coordinates = latLon;
@@ -27,7 +27,7 @@ function startingPoint(latLon) {
     coordinates = randomVtPoint();
     results = leafletPip.pointInLayer(
       [coordinates[1], coordinates[0]],
-      gjLayer
+      omniLayer
     );
     console.log("in while loop");
     console.log(results);
@@ -44,7 +44,7 @@ class VTMap extends React.Component {
         latitude: 44.2601,
         longitude: -72.5754,
       },
-      scoreCheckCoords: {
+      returnToNorm: {
         latitude: 44.2601,
         longitude: -72.5754,
       }, //startingCoords and playStart are meant to be used as a comparison against one another
@@ -54,12 +54,13 @@ class VTMap extends React.Component {
       gameStarted: false,
       playerScore: 100,
       modalDisplayed: false,
-      highDcoreDisplay: false,
+      highScoreDisplay: false,
       zoomIn: 7.45,
       county: undefined,
       status: undefined,
       highscoreDisplay: false,
-      allPositions: []
+      allPositions: [],
+      hsArray: [],
     };
   }
 
@@ -75,7 +76,7 @@ class VTMap extends React.Component {
       return {
         gameStarted: true,
         startingCoords: randomCoord,
-        scoreCheckCoords: randomCoord,
+        returnToNorm: randomCoord,
         zoomIn: 16,
         guess: false,
         allPositions: [[randomCoord.latitude, randomCoord.longitude]] 
@@ -103,11 +104,14 @@ class VTMap extends React.Component {
     console.log(evt.target.getAttribute("id"));
     console.log(this.state.county);
     if (this.state.county === evt.target.getAttribute("id")) {
+      alert("You Win!")
       console.log("Correct");
       this.setState({
         status: "correct",
         modalDisplayed: false,
-        gameStarted: false
+        gameStarted: false,
+        hsArray: this.state.playerScore,
+
       });
     } else {
       this.setState({
@@ -122,7 +126,7 @@ class VTMap extends React.Component {
   north = () => {
     this.setState((preState) => {
       return {
-        playerScore: preState.playerScore - 10,
+        playerScore: preState.playerScore - 5,
         startingCoords: {
           latitude: preState.startingCoords.latitude + 0.002,
           longitude: preState.startingCoords.longitude,
@@ -135,7 +139,7 @@ class VTMap extends React.Component {
   south = () => {
     this.setState((preState) => {
       return {
-        playerScore: this.state.playerScore - 10,
+        playerScore: this.state.playerScore - 5,
         startingCoords: {
           latitude: this.state.startingCoords.latitude - 0.002,
           longitude: this.state.startingCoords.longitude,
@@ -148,7 +152,7 @@ class VTMap extends React.Component {
   east = () => {
     this.setState((preState) => {
       return {
-        playerScore: this.state.playerScore - 10,
+        playerScore: this.state.playerScore - 5,
         startingCoords: {
           latitude: this.state.startingCoords.latitude,
           longitude: this.state.startingCoords.longitude + 0.003,
@@ -161,7 +165,7 @@ class VTMap extends React.Component {
   west = () => {
     this.setState((preState) => {
       return {
-        playerScore: this.state.playerScore - 10,
+        playerScore: this.state.playerScore - 5,
         startingCoords: {
           latitude: this.state.startingCoords.latitude,
           longitude: this.state.startingCoords.longitude - 0.003,
@@ -174,14 +178,12 @@ class VTMap extends React.Component {
   //starting coords are not working
   returnOriginalPosition = () => {
     this.setState({
-      playerScore: this.state.playerScore,
-      startingCoords: {
-        latitude: this.state.scoreCheckCoords.latitude,
-        longitude: this.state.scoreCheckCoords.longitude,
-      },
+     zoomIn: 16,
+     startingCoords: this.state.returnToNorm,
+      playerScore: this.state.playerScore -5,
     });
   };
-
+  //give up restarts the game, but also takes points away
   giveUp = () => {
     this.setState({
       gameStarted: false,
@@ -194,12 +196,9 @@ class VTMap extends React.Component {
     this.setState({ modalDisplayed: true });
   };
 
-  gameOver = () => {
-    if (this.state.playerScore === 0 && this.state.gameStarted === true) {
-        this.setState({
-
-        })
-    }
+  //sends player score to score array
+  scoreKeeper = (hsArray) => {
+    hsArray.push()
   }
 
   //resets board and starts at mid point of map
@@ -249,6 +248,7 @@ class VTMap extends React.Component {
 
     console.log(this.state.startingCoords);
     console.log(this.state.allPositions)
+    console.log(this.state.hsArray)
 
     return (
       <div className="game-container">
@@ -263,6 +263,7 @@ class VTMap extends React.Component {
           <HsModal
             hsCloseModal={this.hsCloseModal}
             status={this.state.status}
+            scoreKeeper={this.scoreKeeper}
           />
         ) : null}
 
@@ -307,8 +308,8 @@ class VTMap extends React.Component {
 
           </Map>
           <div className="infoPanel">
-            <p>Latitude: {this.state.scoreCheckCoords.latitude}</p>
-            <p>Longitude: {this.state.scoreCheckCoords.longitude}</p>
+            <p>Latitude: {this.state.returnToNorm.latitude}</p>
+            <p>Longitude: {this.state.returnToNorm.longitude}</p>
             <p>County: {this.state.status === "correct" ? this.state.countyInfo : ""}</p>
             <p>Score: {this.state.playerScore}</p>
             <h3>{this.state.status}</h3>
