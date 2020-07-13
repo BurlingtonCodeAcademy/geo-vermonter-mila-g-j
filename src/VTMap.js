@@ -61,7 +61,8 @@ class VTMap extends React.Component {
       status: undefined,
       highscoreDisplay: false,
       allPositions: [],
-      value: ''
+      value: '',
+      hsArray: [],
     };
   }
 
@@ -114,7 +115,8 @@ class VTMap extends React.Component {
         status: "Correct",
         modalDisplayed: false,
         gameStarted: false,
-        initialsDisplay: true
+        initialsDisplay: true,
+        hsArray: this.state.playerScore,
 
       });
     } else {
@@ -258,11 +260,11 @@ class VTMap extends React.Component {
   }
 
   //handles submit on initials form
-  handleSubmit(event) {
-    alert('A name was submitted: ' + this.state.value);
-    event.preventDefault();
+  // handleSubmit(event) {
+  //   alert('A name was submitted: ' + this.state.value);
+  //   event.preventDefault();
 
-  }
+  // }
 
   //opens initials modal
   initOpenModal = () => {
@@ -300,7 +302,10 @@ class VTMap extends React.Component {
           />
         ) : null}
         {this.state.initialsDisplay ? (
-          <InitialsModal />
+          <InitialsModal 
+          playerScore={this.state.playerScore}
+          value={event.target.value}
+          />
         ) : null}
         <h1>Geo-Vermonter</h1>
         <div className="mapInfo">
