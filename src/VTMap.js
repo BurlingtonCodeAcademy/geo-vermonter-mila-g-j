@@ -5,6 +5,7 @@ import "./VTMap.css";
 import L from "leaflet";
 import leafletPip from "leaflet-pip";
 import Modal from "./modal.js";
+import highScore from "./highScore.js"
 
 //creates a random point in "Vermont"
 function randomVtPoint() {
@@ -53,6 +54,7 @@ class VTMap extends React.Component {
       gameStarted: false,
       playerScore: 100,
       modalDisplayed: false,
+      highDcoreDisplay: false,
       zoomIn: 7.45,
       county: undefined,
       status: undefined,
@@ -173,6 +175,14 @@ class VTMap extends React.Component {
   guess = () => {
     this.setState({ modalDisplayed: true });
   };
+
+  gameOver = () => {
+    if (this.state.playerScore === 0 && this.state.gameStarted === true) {
+        this.setState({
+
+        })
+    }
+  }
 
   //resets board and starts at mid point of map
   returnPosition = () => {
