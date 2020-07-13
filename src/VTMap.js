@@ -107,7 +107,7 @@ class VTMap extends React.Component {
       alert("You Win!")
       console.log("Correct");
       this.setState({
-        status: "correct",
+        status: "Correct",
         modalDisplayed: false,
         gameStarted: false,
         hsArray: this.state.playerScore,
@@ -116,7 +116,7 @@ class VTMap extends React.Component {
     } else {
       this.setState({
         playerScore: this.state.playerScore - 20,
-        status: "wrong",
+        status: "Wrong",
       });
       console.log("Wrong");
     }
