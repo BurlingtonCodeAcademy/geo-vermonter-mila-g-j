@@ -18,7 +18,7 @@ class HsModal extends React.Component {
                 
                 <h1>Highscores</h1>
                 <ol>
-                {this.props.scores.map(item => (
+                {this.props.scores.map((item, index) => (
                     <li>Name:{JSON.parse(item[0])} Score:{item[1]}</li>
                 ))}
 

@@ -13,7 +13,7 @@ class Modal extends React.Component {
 
     render() {
         return (
-            <div buttonlabel="guess-list">
+            <div buttonlabel="guess-list" id="modal-container">
                 <h1>Which County are you in?</h1>
                 <h3>There are only 14</h3>
                 {/* <h3>{this.props.status}</h3> */}

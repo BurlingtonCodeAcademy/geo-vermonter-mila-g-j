@@ -292,20 +292,25 @@ class VTMap extends React.Component {
     let initials = JSON.stringify(this.state.value)
     let score = JSON.stringify(this.state.playerScore)
     console.log(Object.entries(localStorage))
+
+    //renders info saved in local storage
     Object.entries(localStorage)
-    
-   
+    this.setState({
+      value: ""
+    })
+
     window.localStorage.setItem(initials, score)
-    {this.state.localStorageState()}
+    this.setState({ localStorageState: Object.entries(localStorage) })
+    // after setting local storage state needs to be updated
 
     console.log(window.localStorage)
     console.log(this.state.value)
     console.log(this.state.playerScore)
-}
+  }
 
-handleGetData = () => {
+  handleGetData = () => {
     console.log(window.localStorage.getItem("test"))
-}
+  }
 
   render() {
     let vtBorder = borderData.geometry.coordinates[0].map((coordSet) => {
@@ -385,7 +390,7 @@ handleGetData = () => {
           <div className="infoPanel">
             <p>Latitude: {this.state.returnToNorm.latitude}</p>
             <p>Longitude: {this.state.returnToNorm.longitude}</p>
-            <p>County: {this.state.status === "correct" ? this.state.countyInfo : ""}</p>
+            <p>County: {this.state.status === "Correct" ? this.state.countyInfo : ""}</p>
             <p>Score: {this.state.playerScore}</p>
             <h3>{this.state.status}</h3>
           </div>
