@@ -34,6 +34,7 @@ class Modal extends React.Component {
                     <button id="windsor-county" onClick={this.props.countyGuess}>Windsor</button>
                 </div>
                 <button onClick={this.props.closeModal}>Cancel</button>
+                <h3>{this.props.status}</h3>
             </div>
         )
     }

@@ -123,7 +123,7 @@ class VTMap extends React.Component {
       });
     } else {
       this.setState({
-        playerScore: this.preState.playerScore - 20,
+        playerScore: this.state.playerScore - 20,
         status: "Wrong",
       });
       console.log("Wrong");
@@ -299,9 +299,10 @@ class VTMap extends React.Component {
       value: ""
     })
 
+    //set local storage
     window.localStorage.setItem(initials, score)
+    // updates local storage after setting state
     this.setState({ localStorageState: Object.entries(localStorage) })
-    // after setting local storage state needs to be updated
 
     console.log(window.localStorage)
     console.log(this.state.value)
