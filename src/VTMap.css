@@ -1,0 +1,82 @@
+/*--------------------------VTMap--------------------------------------*/
+
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(30, 116, 150, 0.8);
+    padding: 5%;
+}
+
+.game-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border: black 2px solid;
+    padding: 1%;
+    width: 35%;
+    margin: 2%;
+
+}
+
+.controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border: black 2px solid;
+    padding: 1%;
+    width: 35%;
+    margin: 2%;
+}
+
+.mapInfo{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 85%;
+}
+
+.infoPanel{
+    display: flex;
+    flex-direction: column;
+    border: black 2px solid;
+    padding: 1%;
+    height: 45%;
+
+}
+
+
+/*--------------------------- Modals---------------------------------------*/
+
+.guess-list {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 400px;
+    width: 1000px;
+    background-color: rgba(0, 0, 0, .8);
+    z-index: 1;
+}
+
+#county-list {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    top: 20vh;
+    left: 20vh;
+    width: 50%;
+}
+
+#modal-container{
+    position: fixed;
+    z-index: 5000;
+    background-color: rgba(0, 0, 0, .8);
+    height: 100vh;
+    width: 70vw;
+    color: seashell;
+}
+
